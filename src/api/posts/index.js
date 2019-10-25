@@ -15,7 +15,7 @@ const startInterval = ctx => {
 
 const endInterval = ctx => {
   console.log('end');
-  ctx.body = tick;
+  ctx.body = { cnt: tick, confirm: 'end' };
   clearInterval(interval);
 };
 
