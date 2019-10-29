@@ -13,7 +13,6 @@ const getstatus = ctx => {
 const getcandidatefromBackend = () => {
   return new Promise((resolve, reject) => {
     st.getcandidate(e => {
-      console.log(e);
       resolve(e);
     });
   });
@@ -47,7 +46,6 @@ const endInterval = ctx => {
   st.status = 2;
   st.name = st.getmanWhowillBuild().name;
   st.id = st.getmanWhowillBuild().id;
-  console.log('eee');
   const sendpacket = {
     status: st.status,
     name: st.name,

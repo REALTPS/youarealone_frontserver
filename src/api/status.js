@@ -22,31 +22,24 @@ class Status {
   startInterval() {
     this.status = 1;
     console.log('start');
-
-    // this.interval = setInterval(this.timer.bind(this), 4);
   }
 
   getcandidate(callback) {
     const th = this;
     client.get('http://192.168.0.74:8080/member/all', function(data, response) {
-      console.log(data.length);
-
       th.IO.length = 0;
       for (let i = 0; i < data.length; i++) {
         th.IO.push(data[i].name);
       }
-
-      console.log('ddd' + th.IO);
       callback(th.IO);
     });
   }
 
   getmanWhowillBuild() {
-    const size = this.IO.length - 1;
+    const size = this.IO.length;
     const cnt = Math.floor(Math.random() * size);
     this.id = cnt;
     this.name = this.IO[cnt];
-    console.log(this.IO, cnt);
 
     return { name: this.namee, id: this.id };
   }
@@ -54,7 +47,6 @@ class Status {
   endInterval() {
     this.status = 2;
     console.log('end');
-    // clearInterval(this.interval);
   }
 
   initialState() {
