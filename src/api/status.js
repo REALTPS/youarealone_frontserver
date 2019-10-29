@@ -1,9 +1,13 @@
+var Client = require('node-rest-client').Client;
+
+var client = new Client();
+
 class Status {
   constructor() {
     if (Status.instance) {
       return Status.instance;
     }
-
+    this.IO = ['Sam', 'Carl', 'Hugh', 'Mark'];
     this.tick = 0;
     this.status = 0;
     return Status.instance;
@@ -22,9 +26,19 @@ class Status {
     // this.interval = setInterval(this.timer.bind(this), 4);
   }
 
-  async getcandidate() {
-    this.IO = ['Carl', 'Mark', 'Sam'];
-    return this.IO;
+  getcandidate(callback) {
+    const th = this;
+    client.get('http://192.168.0.74:8080/member/all', function(data, response) {
+      console.log(data.length);
+
+      th.IO.length = 0;
+      for (let i = 0; i < data.length; i++) {
+        th.IO.push(data[i].name);
+      }
+
+      console.log('ddd' + th.IO);
+      callback(th.IO);
+    });
   }
 
   getmanWhowillBuild() {
@@ -32,6 +46,7 @@ class Status {
     const cnt = Math.floor(Math.random() * size);
     this.id = cnt;
     this.name = this.IO[cnt];
+    console.log(this.IO, cnt);
 
     return { name: this.namee, id: this.id };
   }

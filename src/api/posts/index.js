@@ -10,13 +10,21 @@ const getstatus = ctx => {
   ctx.body = { confirm: 'data', status: st.status, name: st.name, id: st.id };
 };
 
-const getcandidate = ctx => {
-  st.getcandidate().then(e => {
-    ctx.body = {
-      confirm: 'getcandidate',
-      candidate: e,
-    };
+const getcandidatefromBackend = () => {
+  return new Promise((resolve, reject) => {
+    st.getcandidate(e => {
+      console.log(e);
+      resolve(e);
+    });
   });
+};
+
+const getcandidate = async ctx => {
+  const e = await getcandidatefromBackend();
+  ctx.body = {
+    confirm: 'getcandidate',
+    candidate: e,
+  };
 };
 
 const startInterval = ctx => {
