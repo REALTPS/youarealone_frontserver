@@ -5,6 +5,9 @@ const st = new Status();
 const posts = new Router();
 const Socket = require('../io/socket').Socket;
 const io = new Socket();
+var Client = require('node-rest-client').Client;
+
+var client = new Client();
 
 const getstatus = ctx => {
   ctx.body = { confirm: 'data', status: st.status, name: st.name, id: st.id };
@@ -61,16 +64,34 @@ posts.get('/status', getstatus);
 posts.get('/candidate', getcandidate);
 posts.post('/start', startInterval);
 posts.post('/end', endInterval);
-posts.post('/setdata', bodyParser(), async ctx => {
+posts.post('/setdata', bodyParser(), ctx => {
   if (st.status !== 2) {
     ctx.body = 'failed';
     return;
   }
   const getMyValue = ctx.request.body;
-  console.log(getMyValue);
-  ctx.body = { confirm: 'data' };
+
+  var args = {
+    data: {
+      name: getMyValue.whois,
+      company: getMyValue.customer,
+      serial: getMyValue.secretno,
+    },
+    headers: { 'Content-Type': 'application/json' },
+  };
+  try {
+    client.post('http://192.168.0.74:8080/history/add', args, function(
+      data,
+      response,
+    ) {
+      console.log('This time : ' + data);
+    });
+  } catch (e) {
+    console.log('the Error is ' + e);
+  }
   io.broadcasting({ status: 0 });
   st.initialState();
+  //serial company name
 });
 
 module.exports = posts;

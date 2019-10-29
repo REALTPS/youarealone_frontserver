@@ -26,7 +26,10 @@ class Status {
 
   getcandidate(callback) {
     const th = this;
-    client.get('http://192.168.0.74:8080/member/all', function(data, response) {
+    client.get('http://192.168.0.74:8080/member/candidate', function(
+      data,
+      response,
+    ) {
       th.IO.length = 0;
       for (let i = 0; i < data.length; i++) {
         th.IO.push(data[i].name);
@@ -41,7 +44,7 @@ class Status {
     this.id = cnt;
     this.name = this.IO[cnt];
 
-    return { name: this.namee, id: this.id };
+    return { name: this.name, id: this.id };
   }
 
   endInterval() {
