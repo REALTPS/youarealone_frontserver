@@ -24,15 +24,13 @@ const startInterval = ctx => {
     ctx.body = 'failed';
     return;
   }
-  console.log('eee3');
   st.status = 1;
-  io.broadcasting(1);
+  io.broadcasting({ status: 1 });
   ctx.body = { confirm: 'start' };
   // st.startInterval();
 };
 
 const endInterval = ctx => {
-  console.log('whatis' + st.status);
   if (st.status !== 1) {
     ctx.body = 'failed';
     return;
@@ -42,11 +40,14 @@ const endInterval = ctx => {
   st.name = st.getmanWhowillBuild().name;
   st.id = st.getmanWhowillBuild().id;
   console.log('eee');
-  io.broadcasting(2);
-  ctx.body = {
-    confirm: 'end',
+  const sendpacket = {
+    status: st.status,
     name: st.name,
     id: st.id,
+  };
+  io.broadcasting(sendpacket);
+  ctx.body = {
+    confirm: 'end',
   };
 };
 
@@ -60,9 +61,9 @@ posts.post('/setdata', bodyParser(), async ctx => {
     return;
   }
   const getMyValue = ctx.request.body;
-  console.log('mavel' + getMyValue);
+  console.log(getMyValue);
   ctx.body = { confirm: 'data' };
-  io.broadcasting(0);
+  io.broadcasting({ status: 0 });
   st.initialState();
 });
 

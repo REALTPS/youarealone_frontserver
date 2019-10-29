@@ -21,18 +21,14 @@ class Socket {
     io.on('connection', function(socket) {
       socket.on('status', function(data) {
         //process the data here
-        console.log(data);
-
         // emit an event
-        console.log('responding with news');
         this.status = data.status;
         // io.sockets.emit('status', { status: this.status });
       });
     });
   }
-  broadcasting(status) {
-    console.log(status);
-    io.sockets.emit('status', { status: status });
+  broadcasting(data) {
+    io.sockets.emit('status', data);
   }
 }
 
