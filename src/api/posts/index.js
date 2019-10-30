@@ -73,12 +73,14 @@ posts.post('/setdata', bodyParser(), ctx => {
 
   var args = {
     data: {
-      name: getMyValue.whois,
+      name: getMyValue.name,
       company: getMyValue.customer,
-      serial: getMyValue.secretno,
+      serial: getMyValue.serial,
+      requester: getMyValue.requester,
     },
     headers: { 'Content-Type': 'application/json' },
   };
+
   try {
     client.post('http://192.168.0.74:8080/history/add', args, function(
       data,
@@ -91,6 +93,7 @@ posts.post('/setdata', bodyParser(), ctx => {
   }
   io.broadcasting({ status: 0 });
   st.initialState();
+  ctx.body = { confirm: 'Submitted' };
   //serial company name
 });
 
