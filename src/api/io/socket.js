@@ -30,6 +30,10 @@ class Socket {
   broadcasting(data) {
     io.sockets.emit('status', data);
   }
+
+  historyChanged(data) {
+    io.sockets.emit('history', data);
+  }
 }
 
 module.exports.Socket = Socket;

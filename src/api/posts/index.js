@@ -80,7 +80,7 @@ posts.post('/setdata', bodyParser(), ctx => {
     },
     headers: { 'Content-Type': 'application/json' },
   };
-
+  console.log(args);
   try {
     client.post('http://192.168.0.74:8080/history/add', args, function(
       data,
@@ -92,6 +92,7 @@ posts.post('/setdata', bodyParser(), ctx => {
     console.log('the Error is ' + e);
   }
   io.broadcasting({ status: 0 });
+  io.historyChanged({ confirm: 'OK' });
   st.initialState();
   ctx.body = { confirm: 'Submitted' };
   //serial company name
