@@ -24,6 +24,10 @@ router.use('/api', api.routes());
 app.use(cors());
 app.use(router.routes()).use(router.allowedMethods());
 
+process.on('uncaughtException', function(err) {
+  console.log(err);
+});
+
 app.listen(PORT, () => {
   console.log(`Opened Server at ${PORT}`);
 });
