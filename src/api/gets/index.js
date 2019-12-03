@@ -1,12 +1,13 @@
 const Router = require('koa-router');
 const gets = new Router();
+const ip = require('../ip');
 var Client = require('node-rest-client').Client;
 
 var client = new Client();
 
 const getHistoryFromBackend = () => {
   return new Promise(resolve => {
-    client.get('http://192.168.0.74:8080/history/all', data => {
+    client.get(`${ip}/history/all`, data => {
       resolve(data);
     });
   });

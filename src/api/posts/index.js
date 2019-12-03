@@ -5,6 +5,7 @@ const st = new Status();
 const posts = new Router();
 const Socket = require('../io/socket').Socket;
 const io = new Socket();
+const ip = require('../ip');
 var Client = require('node-rest-client').Client;
 
 var client = new Client();
@@ -82,10 +83,7 @@ posts.post('/setdata', bodyParser(), ctx => {
   };
   console.log(args);
   try {
-    client.post('http://192.168.0.74:8080/history/add', args, function(
-      data,
-      response,
-    ) {
+    client.post(`${ip}/history/add`, args, function(data, response) {
       console.log('This time : ' + data);
     });
   } catch (e) {
